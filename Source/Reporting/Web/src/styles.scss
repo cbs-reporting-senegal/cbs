@@ -21,13 +21,14 @@ form { // TODO: Style the user-form with properly scoped CSS
     margin: 20px 0;
 }
 
-
+textarea.form-control {
+  border: 1px solid #ddd;
+}
 
 $base-color: #0079FE;
 $btn-background: #fff;
 $btn-border: #ccc;
-$btn-text-color: #333;
-$btn-arrow: #333;
+$btn-color: #333;
 
 
 $token-background: $base-color;
@@ -42,7 +43,7 @@ $selected-background: #e9f4ff;
 .c-btn{
     background: $btn-background;
     border: 1px solid $btn-border;
-    color: $btn-text-color;
+    color: $btn-color;
 }
 .selected-list{
     .c-list{
@@ -61,7 +62,7 @@ $selected-background: #e9f4ff;
     }
     .c-angle-down, .c-angle-up{
         svg {
-            fill: $btn-arrow;
+            fill: $btn-color;
         }
     }
 }
@@ -139,8 +140,4 @@ $selected-background: #e9f4ff;
     background: $base-color;
     border: 1px solid $btn-border;
     color: #fff;
-}
-
-textarea.form-control {
-  border: 1px solid #ddd;
 }

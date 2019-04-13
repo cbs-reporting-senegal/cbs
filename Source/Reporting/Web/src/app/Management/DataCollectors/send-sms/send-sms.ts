@@ -4,22 +4,15 @@ import { QueryCoordinator } from '@dolittle/queries';
 import { AllDataCollectors } from '../AllDataCollectors';
 
 @Component({
-  templateUrl: './send-sms.html',
-  styleUrls: ['./send-sms.scss']
+  templateUrl: './send-sms.html'
 })
 export class SendSms implements OnInit {
   users: ReadonlyArray<DataCollector>;
 
-  public error: boolean;
-  public errorMsg = 'Could not get users, try again later';
-
-  selectedUser: DataCollector;
   itemList;
   selectedItems = [];
   settings = {};
   message = '';
-  m
-  recipients;
 
   constructor(
     private queryCoordinator: QueryCoordinator
@@ -38,7 +31,7 @@ export class SendSms implements OnInit {
                 unSelectAllText: 'UnSelect All',
                 enableSearchFilter: true,
                 showCheckbox: true,
-                searchBy: ['fullName'],
+                searchBy: ['fullName', 'phoneNumbers'],
                 badgeShowLimit: 5
             };
           } else {
