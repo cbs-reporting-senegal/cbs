@@ -1,46 +1,28 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { Column, SortableColumn, CaseReportColumns } from '../sort/columns';
+import {QueryCoordinator} from '@dolittle/queries';
+import { QuickFilter } from '../filtering/filter.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryCoordinator } from '@dolittle/queries';
-import { Column, SortableColumn, CaseReportColumns } from './sort/columns';
-import { QuickFilter } from './filtering/filter.pipe';
-import { AllCaseReportsForListing } from './AllCaseReportsForListing';
-import { CaseReportForListing } from './CaseReportForListing';
+import { AllTrainingCaseReportsForListing } from '../../TrainingCaseReportsForListing/AllTrainingCaseReportsForListing';
+import { TrainingCaseReportForListing } from '../../TrainingCaseReportsForListing/TrainingCaseReportForListing';
 
-//import * as fromServices from '../../services';
-//import * as fromModels from '../../shared/models';
 
 @Component({
-    selector: 'cbs-case-report-list',
-    templateUrl: './case-report-list.component.html',
-    styleUrls: ['./case-report-list.component.scss']
+  selector: 'cbs-training-case-reports',
+  templateUrl: './training-case-reports.component.html',
+  styleUrls: ['./training-case-reports.component.scss']
 })
-/**
- * maxReports: number
- *      The number of reports that can be shown on a page
- * listedReports: Array<any>
- *      The list of reports that is actually shown. Can hold any object so that the data
- *      that the actual object, CaseReport, holds can be accessed. Since when reports
- *      are referenced using the interface Report we can only access the id, success and timeStamp values.
- * reports: Array<Report>
- *      The list of reports fetched from the DB, objects referenced with the Report interface.
- * reports_detailed: Array<any>
- *      The same as reports, the objects are just any object. Not typesafe, but we can access fields that
- *      cannot be accessed through the Report interface
- */
-export class CaseReportListComponent implements OnInit {
+export class TrainingCaseReportsComponent implements OnInit {
 
-    listedReports: Array<CaseReportForListing> = [];
-    allReports: Array<CaseReportForListing> = [];
+    listedReports: Array<TrainingCaseReportForListing> = [];//TODO: Should be another, TrainingCaseReports, read model
 
-    allFilters: Array<QuickFilter> = QuickFilter.Filters;
+    allFilters: Array<QuickFilter> = QuickFilter.FiltersWithoutUnknownSender;
     currentFilter: QuickFilter = QuickFilter.All;
 
     allColumns: Array<Column> = CaseReportColumns;
     sortDescending: boolean = true;
     sortField: string;
     currentSortColumn: SortableColumn = CaseReportColumns[0] as SortableColumn; // Timestamp
-    dateDebut : any ;
-    dateFin : any;
 
     page = {
         isLoading: false,
@@ -78,21 +60,6 @@ export class CaseReportListComponent implements OnInit {
         this.updateNavigation(filter, this.currentSortColumn, this.sortDescending);
     }
 
-    sortDate( datefrom : Date , dateto : Date )
-    {
-        let dateFrom = new Date(datefrom) ;
-        let dateTo = new Date(dateto) ;
-        this.listedReports = this.allReports;
-        let newReports = [] ;
-        
-        this.listedReports.forEach( listedReport => {
-            let date = listedReport.timestamp;
-            if (date.getTime() >= dateFrom.getTime() && date.getTime() <= dateTo.getTime()) newReports.push(listedReport);
-        });
-
-        this.listedReports = newReports;
-    }
-
     toggleSortColum(column: Column) {
         if (column instanceof SortableColumn) {
             if (column !== this.currentSortColumn) {
@@ -104,7 +71,7 @@ export class CaseReportListComponent implements OnInit {
     }
 
     loadListData(): void {
-        const query = new AllCaseReportsForListing();
+        const query = new AllTrainingCaseReportsForListing(); //TODO: Should be another, TrainingCaseReports, read model. Another query
         query.pageNumber = this.page.number;
         query.pageSize = this.page.size;
         query.sortField = this.sortField;
@@ -113,11 +80,10 @@ export class CaseReportListComponent implements OnInit {
         this.queryCoordinator.execute(query)
             .then(response => {
                 if (response.success) {
-                    this.listedReports = response.items as Array<CaseReportForListing>;
+                    this.listedReports = response.items as Array<TrainingCaseReportForListing>; //TODO: Should be another, TrainingCaseReports, read model
                     this.listedReports.forEach(element => {
                         element.timestamp = new Date(element.timestamp);
                     });
-                    this.allReports = this.listedReports;
                 } else {
                     console.error(response);
                 }
