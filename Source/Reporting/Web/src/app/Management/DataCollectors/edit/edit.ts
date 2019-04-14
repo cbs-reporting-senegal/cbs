@@ -400,7 +400,7 @@ export class Edit implements OnInit {
                         }
                     }
                 });
-                
+
             }
             else {
                 let command = new EndTraining();
