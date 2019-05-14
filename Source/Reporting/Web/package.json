@@ -34,8 +34,6 @@
     "@microsoft/applicationinsights-web": "^2.0.0-rc3",
     "bootstrap-sass": "^3.3.7",
     "core-js": "^2.5.3",
-    "@ngx-translate/core": "^7.0.0",
-    "@ngx-translate/http-loader": "^2.0.0",
     "navigation": "file:../../Navigation/Web.Angular",
     "angular2-multiselect-dropdown": "^2.0.0",
     "ngx-bootstrap": "^2.0.0-rc.0",
